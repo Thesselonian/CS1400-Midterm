@@ -1,18 +1,50 @@
 import java.util.Scanner;
+import java.util.Random;
 public class Horoscope {
+    Scanner keyboard = new Scanner(System.in);
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
-        int userBirthMonth = 0;
-        int userBirthDay = 0;
-        
+        Boolean keepGoing = true;
+        while(keepGoing) {
+            int userBirthMonth = 0;
+            int userBirthDay = 0;
+    
+            System.out.println("Please enter your birth month (1-12).");
+            userBirthMonth = keyboard.nextInt();
+            keyboard.nextLine();
+            System.out.println("Please enter the day of the month that you were born.");
+            userBirthDay = keyboard.nextInt();
+            // Call method for determining zodiac sign, pass in users month # and day #
+            System.out.println("Your zodiac sign is: " + ZodiacLookup(userBirthMonth, userBirthDay));
+            System.out.println(HoroscopeGenerator());
+            keepGoing = Continue();
+        }
+        keyboard.close();
+    }
 
-        System.out.println("Please enter your birth month (1-12).");
-        userBirthMonth = keyboard.nextInt();
-        keyboard.nextLine();
-        System.out.println("Please enter the day of the month that you were born.");
-        userBirthDay = keyboard.nextInt();
-        // Call method for determining zodiac sign, pass in users month # and day #
-        System.out.println("Your zodiac sign is: " + ZodiacLookup(userBirthMonth, userBirthDay));
+    public static Boolean Continue() {
+        Boolean valid = false;
+        Boolean returnedResponse = false;
+        String userResponse = "";
+        Scanner keyboard = new Scanner(System.in);
+        while(!valid) {
+            System.out.println("Would you like to get another horoscope? (y/n)");
+            userResponse = keyboard.nextLine();
+            if (userResponse.equalsIgnoreCase("y") || userResponse.equalsIgnoreCase("n")) {
+                if (userResponse.equalsIgnoreCase("y")) {
+                    valid = true;
+                    returnedResponse = true;
+                }
+                else {
+                    valid = true;
+                    returnedResponse = false;
+                }
+            }
+            else {
+                System.out.println("Please enter a valid response");
+            }
+        }
+        return returnedResponse;
     }
 
     public static String ZodiacLookup(int month, int day) {
@@ -94,5 +126,19 @@ public class Horoscope {
             zodiac = "Sagittarius";
         }
         return zodiac;
+    }
+
+    public static String HoroscopeGenerator() {
+        Random r = new Random();
+        int randomNumber = r.nextInt(6) +1;
+        String[] horoscopes = {
+            "If you think you're spending too much time slacking, then study it out and do the right thing. Bear in mind that nobody can hold you down but yourself.",
+            "Are you wondering about talking to your significant other? This week is ultimately a turning point in your life and you'll know what to do. You feel emotionally centered and ready for almost anything.",
+            "Your next Career: Taxidermist. Buy a box of fake eyeballs. You'll thanks us later.",
+            "After months of backbreaking effort, you'll finally finish your first novel. Now, imagine how difficult it would be to actually write one.",
+            "Just when you finally have all the answers, someone has changed all the questions.",
+            "Are you wondering about taking a big step in a new direction? The coming week might be the day you became YOU and you'll have to make a decision."
+        };
+        return horoscopes[randomNumber];
     }
 }
